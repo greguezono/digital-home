@@ -321,22 +321,22 @@
    "sideBy": true
   },
   {
-   "icon": "christ-the-redeemer",
+   "icon": "pedra-da-gavea",
    "place": "rio-de-janeiro",
-   "label": "Christ the Redeemer",
+   "label": "Pedra da Gávea",
    "width": 44,
    "offset": [
     -26,
     -24
    ],
    "at": [
-    -43.2105,
-    -22.9519
+    -43.2849,
+    -23.0011
    ],
    "maxScale": 2,
    "anchor": [
     0.5,
-    0.56
+    0.9
    ]
   },
   {
@@ -746,7 +746,7 @@
    "maxScale": 1.7
   },
   {
-   "icon": "lobitos-sea-lion",
+   "icon": "lobitos-platforms",
    "place": "lobitos",
    "alsoPlaces": [
     "piscinas"
@@ -1017,17 +1017,17 @@
    "maxScale": 2.2
   },
   {
-   "icon": "brandenburg-gate",
+   "icon": "berlin-memorial",
    "place": "berlin",
-   "label": "Brandenburg Gate",
+   "label": "Memorial to the Murdered Jews of Europe",
    "width": 36,
    "offset": [
     18,
     -6
    ],
    "at": [
-    13.3777,
-    52.5163
+    13.3787,
+    52.5139
    ],
    "anchor": [
     0.5,
@@ -1074,21 +1074,21 @@
    "maxScale": 2.2
   },
   {
-   "icon": "munich-frauenkirche",
+   "icon": "munich-marienplatz",
    "place": "munich",
-   "label": "Frauenkirche",
+   "label": "Marienplatz",
    "width": 22,
    "offset": [
     16,
     -6
    ],
    "at": [
-    11.5736,
-    48.1386
+    11.5755,
+    48.1374
    ],
    "anchor": [
     0.5,
-    0.95
+    0.9
    ],
    "maxScale": 2.2
   },
@@ -1112,21 +1112,21 @@
    "maxScale": 2.2
   },
   {
-   "icon": "osaka-castle",
+   "icon": "osaka-crab",
    "place": "osaka",
-   "label": "Osaka Castle",
+   "label": "Kani Doraku crab, Dōtonbori",
    "width": 30,
    "offset": [
     -14,
     10
    ],
    "at": [
-    135.5258,
-    34.6873
+    135.5016,
+    34.6687
    ],
    "anchor": [
     0.5,
-    0.95
+    0.9
    ],
    "maxScale": 2.2
   },
@@ -1150,21 +1150,21 @@
    "maxScale": 2.2
   },
   {
-   "icon": "hcmc-notre-dame",
+   "icon": "independence-palace",
    "place": "ho-chi-minh-city",
-   "label": "Notre-Dame Cathedral, Saigon",
+   "label": "Independence Palace",
    "width": 22,
    "offset": [
     16,
     -6
    ],
    "at": [
-    106.699,
-    10.7798
+    106.6953,
+    10.777
    ],
    "anchor": [
     0.5,
-    0.95
+    0.9
    ],
    "maxScale": 2.2
   },
@@ -1264,28 +1264,28 @@
    "maxScale": 2.2
   },
   {
-   "icon": "teide-volcano",
+   "icon": "canary-grotto",
    "place": "canary-islands",
-   "label": "Teide",
+   "label": "Jameos del Agua",
    "width": 38,
    "offset": [
     -14,
     -8
    ],
    "at": [
-    -16.6425,
-    28.2724
+    -13.4237,
+    29.1572
    ],
    "anchor": [
     0.5,
-    0.92
+    0.9
    ],
    "maxScale": 2.2
   },
   {
-   "icon": "monte-roraima",
+   "icon": "roraima-kukenan",
    "place": "monte-roraima",
-   "label": "Monte Roraima",
+   "label": "Roraima & Kukenán",
    "width": 46,
    "offset": [
     24,
@@ -1302,9 +1302,9 @@
    "maxScale": 2.2
   },
   {
-   "icon": "meeting-of-waters",
+   "icon": "manaus-jungle-hotel",
    "place": "manaus-amazonia",
-   "label": "Meeting of the Waters",
+   "label": "Amazon jungle hotel",
    "width": 42,
    "offset": [
     10,
@@ -1917,9 +1917,9 @@
    "maxScale": 2.2
   },
   {
-   "icon": "mitre-peak",
+   "icon": "milford-sound",
    "group": "nz-southern-alps",
-   "label": "Mitre Peak, Milford Sound",
+   "label": "Milford Sound",
    "width": 42,
    "offset": [
     -26,
@@ -2213,13 +2213,13 @@
    "maxScale": 2.2
   },
   {
-   "icon": "punta-mango-point",
+   "icon": "punta-mango-barrel",
    "label": "Punta Mango",
    "width": 34,
    "minZoom": 5.5,
    "offset": [
-    0,
-    0
+    -20,
+    -4
    ],
    "at": [
     -88.19,
@@ -2231,14 +2231,35 @@
    ],
    "maxScale": 2.0,
    "alsoPlaces": [
-    "el-toro",
     "playa-las-flores"
    ],
-   "place": "punta-mango"
+   "place": "punta-mango",
+   "sideBy": "el-toro"
   },
   {
-   "icon": "golfo-dulce-whale-tail",
-   "label": "Golfo Dulce humpback",
+   "icon": "el-toro-barrel",
+   "label": "El Toro — first barrel",
+   "width": 30,
+   "minZoom": 5.5,
+   "offset": [
+    20,
+    -4
+   ],
+   "at": [
+    -88.1321,
+    13.1662
+   ],
+   "anchor": [
+    0.5,
+    0.85
+   ],
+   "maxScale": 2.0,
+   "place": "el-toro",
+   "sideBy": "punta-mango"
+  },
+  {
+   "icon": "pavones-river",
+   "label": "Pavones",
    "width": 32,
    "minZoom": 5.5,
    "offset": [

@@ -1,0 +1,364 @@
+{
+ "_schema": "items[]: {name, title, batch, replaces (current icons/<x>.svg or null), refs [icons/refs/<file>], brief, drafts [file names in icons/drafts], status: todo|drafted|picked, pick, notes}",
+ "items": [
+  {
+   "name": "eiffel-tower",
+   "title": "Eiffel Tower (redo)",
+   "batch": "redo",
+   "replaces": "eiffel-tower",
+   "refs": [
+    "paris-eiffel.png"
+   ],
+   "brief": "Greg's ref (paris-eiffel.png): straight-on front elevation. Four splayed legs joined by the big decorative arch at the base, a wide first-floor platform band, open gap between the legs up to the second platform, then a long tapering open-lattice shaft to a small top cabin and antenna spike. Show the lattice as X-bracing strokes (it is see-through, not a solid fill), warm bronze-brown (#8a5a3a/#a9783f), deep blue sky optional, green Champ de Mars lawn + tree clumps at the base. Tall portrait viewBox (~60x110). Current icon fails because it is a solid cone with no openings, no platforms and no arch.",
+   "drafts": [
+    "eiffel-tower.v1.svg",
+    "eiffel-tower.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "hagia-sophia",
+   "title": "Hagia Sophia (redo, more realistic)",
+   "batch": "redo",
+   "replaces": "hagia-sophia",
+   "refs": [],
+   "brief": "More realistic and detailed than current. Real building: big shallow central dome on a drum ringed with small windows, stacked cascading semi-domes and buttresses below it, 4 slender pencil minarets with conical lead caps (2 taller in front, 2 behind), rose/terracotta walls (#e9b88a/#c8664a), grey-lead domes (#9a95a6). Keep minarets distinct at 32px. Wide viewBox (~120x76).",
+   "drafts": [
+    "hagia-sophia.v1.svg",
+    "hagia-sophia.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "morro-do-pico",
+   "title": "Fernando de Noronha — Morro do Pico",
+   "batch": "redo",
+   "replaces": "morro-do-pico",
+   "refs": [
+    "noronha.png",
+    "noronha-buggy.png"
+   ],
+   "brief": "Show the island and the Morro do Pico more clearly: a tall dark-grey rocky spire (thumb shape, slightly leaning) rising from a green forested island hill, beach crescent and turquoise water (#7fc9c2) at its foot, a wave/foam line. Optional red flamboyant tree as a small accent. Must read as 'rock spike on green island' at 32px.",
+   "drafts": [
+    "morro-do-pico.v1.svg",
+    "morro-do-pico.v2.svg",
+    "morro-do-pico.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 = v2 EXACTLY (copy its geometry) plus a small yellow beach buggy (Brazilian 'bugre', the island's iconic transport) parked on the LEFT on the sand/foreground: open-top boxy yellow body (#f6d26b/#e8b23a), black roll bar, chunky dark tyres, 1-2 surfboards strapped on the roof rack (red + white), a few tiny sticker dots. Keep it small (~1/4 width) so the Morro stays the hero."
+  },
+  {
+   "name": "ha-long-karsts",
+   "title": "Ha Long Bay — karsts + cruise boat",
+   "batch": "redo",
+   "replaces": "ha-long-karsts",
+   "refs": [
+    "ha-long-bay.png",
+    "ha-long-boat.png"
+   ],
+   "brief": "Cluster of steep green limestone karst islets (rounded tops, near-vertical sides, varied heights, some overlapping in depth) on emerald-green water (#7fc9c2 / #3f8f7a). Add a white multi-deck cruise ship (rounded white bow, 3-4 decks of window strips, small dark funnel/mast) like the ref boat, small relative to karsts. Replace the old red-sail junk.",
+   "drafts": [
+    "ha-long-karsts.v1.svg",
+    "ha-long-karsts.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "milford-sound",
+   "title": "Milford Sound — waterfall fjord",
+   "batch": "redo",
+   "replaces": "mitre-peak",
+   "refs": [
+    "milford-sound.png"
+   ],
+   "brief": "Based on ref: a big steep mountain (grey rock top, green forested flanks) with a tall white waterfall (Bowen/Stirling Falls) plunging down a cleft into deep teal fjord water, small strip of shore. Replaces mitre-peak sticker for the nz-southern-alps group.",
+   "drafts": [
+    "milford-sound.v1.svg",
+    "milford-sound.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "pedra-da-gavea",
+   "title": "Rio — Pedra da Gávea",
+   "batch": "subject",
+   "replaces": "christ-the-redeemer",
+   "refs": [
+    "rio-pedra-da-gavea.png",
+    "pedra-da-gavea-detail.png"
+   ],
+   "brief": "Replace Christ the Redeemer. Pedra da Gávea: a big forest-green mountain with a flat-topped bare-granite summit block (tan/ochre #e9c98f + #c38a62) — tall square 'head' on the right, lower flat shelf on the left — over a dark rock face; optional wisp of white cloud at the base and ocean band.",
+   "drafts": [
+    "pedra-da-gavea.v1.svg",
+    "pedra-da-gavea.v2.svg",
+    "pedra-da-gavea.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 = v2 composition but the rock is more chiselled and detailed, per the labelled ref: the CABEÇA (head) is a big squarish granite block on the right with vertical fracture lines and a shadowed 'face' (two eye hollows = OLHOS, faint nose ridge) on its front; a lower flat MESA/PLATÔ shelf block on the left; a sheer PAREDÃO cliff below the head; layered horizontal strata strokes and facet shading in ochre/tan (#e9c98f, #c38a62, #a9783f). Forest green flanks below, cloud wisp at base."
+  },
+  {
+   "name": "independence-palace",
+   "title": "Ho Chi Minh City — Independence Palace",
+   "batch": "subject",
+   "replaces": "hcmc-notre-dame",
+   "refs": [
+    "hcmc-palace.png"
+   ],
+   "brief": "Wide, low, modernist cream/white 4-storey palace: long flat roof with a raised central block, rows of vertical concrete fins/brise-soleil across the facade, red flag on a pole at centre top, tiny palm trees along the roofline, green lawn with a fountain in front. Wide viewBox (~120x60).",
+   "drafts": [
+    "independence-palace.v1.svg",
+    "independence-palace.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "osaka-crab",
+   "title": "Osaka — Kani Doraku crab sign",
+   "batch": "subject",
+   "replaces": "osaka-castle",
+   "refs": [
+    "osaka-crab.png"
+   ],
+   "brief": "Giant red mechanical crab sign (Kani Doraku, Dotonbori): bright red rounded body (#d9573b/#c84a2f) with two raised claws and 6-8 long jointed legs splayed out, black bead eyes on stalks, mounted on a white slatted panel backdrop with a dark eave below. No Japanese text. Wide viewBox.",
+   "drafts": [
+    "osaka-crab.v1.svg",
+    "osaka-crab.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "berlin-memorial",
+   "title": "Berlin — Memorial to the Murdered Jews of Europe",
+   "batch": "subject",
+   "replaces": "brandenburg-gate",
+   "refs": [
+    "berlin-memorial.png"
+   ],
+   "brief": "Field of grey concrete stelae in a grid, drawn in simple oblique/isometric so the rows of rectangular blocks recede and vary in height (#c9d4e0 tops, #9a95a6 fronts, #5d5a66 shadow sides). Calm, respectful, no people or just one tiny figure for scale. Must still read at 32px as 'grid of grey blocks'.",
+   "drafts": [
+    "berlin-memorial.v1.svg",
+    "berlin-memorial.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v1"
+  },
+  {
+   "name": "munich-marienplatz",
+   "title": "Munich — Marienplatz",
+   "batch": "subject",
+   "replaces": "munich-frauenkirche",
+   "refs": [
+    "munich-plaza.png"
+   ],
+   "brief": "Marienplatz: the neo-Gothic New Town Hall (Neues Rathaus) with its tall central clock tower and spiky pinnacles, grey-stone facade with arched arcade, the plaza in front with the Mariensäule column (golden figure on top). Optionally the twin green onion-domed towers of the Frauenkirche small in the background. Portrait-ish viewBox.",
+   "drafts": [
+    "munich-marienplatz.v1.svg",
+    "munich-marienplatz.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "lobitos-platforms",
+   "title": "Lobitos — oil platforms at sea",
+   "batch": "surf",
+   "replaces": "lobitos-sea-lion",
+   "refs": [
+    "lobitos-oil-platforms.png"
+   ],
+   "brief": "Peru desert coast surf: 1-2 offshore oil platforms (rig deck on legs with a derrick tower, dark steel #3b3640/#5d5a66) out at sea on the horizon, a small white supply boat, a clean left-breaking wave in the foreground; optional tan desert headland (#e9c98f).",
+   "drafts": [
+    "lobitos-platforms.v1.svg",
+    "lobitos-platforms.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "pavones-river",
+   "title": "Pavones — river-mouth landscape",
+   "batch": "surf",
+   "replaces": "golfo-dulce-whale-tail",
+   "refs": [
+    "pavones-river.png",
+    "pavones-left-wave.png"
+   ],
+   "brief": "Aerial-ish 3/4 landscape: dense jungle-green coast, a river winding out to the sea with a sandbar at the mouth, and long left point-break lines peeling along the coast (white foam lines on teal). Keep it a sticker, not a map: low oblique view.",
+   "drafts": [
+    "pavones-river.v1.svg",
+    "pavones-river.v2.svg",
+    "pavones-river.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 = v2 river-mouth landscape plus Pavones' famous very long, smooth LEFT-hand point wave: several long parallel white peeling lines wrapping around the point and running far down the coast (left as seen by a surfer facing the beach = peeling from right to left along the shore in the picture as in the ref), clean glassy teal water, sandbar and river mouth still visible, jungle and a small green football field optional."
+  },
+  {
+   "name": "punta-mango-barrel",
+   "title": "Punta Mango — barrelling wave",
+   "batch": "surf",
+   "replaces": "punta-mango-point",
+   "refs": [
+    "punta-mango-barrel.png"
+   ],
+   "brief": "A thick, hollow, barrelling right-hand wave: deep green-teal face curling over into a tube with white lip spray, tiny surfer standing in the barrel, foam at the base. Bold silhouette.",
+   "drafts": [
+    "punta-mango-barrel.v1.svg",
+    "punta-mango-barrel.v2.svg",
+    "punta-mango-barrel.v3.svg",
+    "punta-mango-barrel.v4.svg",
+    "punta-mango-barrel.v5.svg"
+   ],
+   "status": "picked",
+   "notes": "Round 3 variations, surfer IN the tube (v2 was the earlier pick): v3 = long low wall + whitewater section, like the ref; v4 = wide tube with spit blowing out; v5 = round sunset badge.",
+   "pick": "v5"
+  },
+  {
+   "name": "canary-grotto",
+   "title": "Canary Islands — turquoise sea grotto",
+   "batch": "surf",
+   "replaces": "teide-volcano",
+   "refs": [
+    "canary-lanzarote-cave.png"
+   ],
+   "brief": "Inside view of a dark volcanic sea cave/grotto: rock arch frame (#3b3640/#5d5a66) with stalactites hanging from the roof, glowing turquoise water (#7fc9c2 bright) inside, light from the opening. Reads as 'cave with turquoise water' at 32px.",
+   "drafts": [
+    "canary-grotto.v1.svg",
+    "canary-grotto.v2.svg",
+    "canary-grotto.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 based on Jameos del Agua (Lanzarote lava-tube cave): dark volcanic cave interior framing the whole sticker, a ragged skylight opening at the top letting light in, a few hanging rock drips/stalactites from the ceiling, green plants on a ledge at the far back lit by sunlight, and a still, glowing turquoise lagoon (#7fc9c2 + lighter highlights) in the foreground reflecting the opening. Tall-ish viewBox."
+  },
+  {
+   "name": "ski-mountain",
+   "title": "Ski category icon — snowy powdery mountain",
+   "batch": "new",
+   "replaces": null,
+   "refs": [],
+   "brief": "Category icon for Skied (like the surf wave icon): a snowy powdery mountain — white snow-capped peak with powder puffs/snow spray, maybe pine trees at the base, blue shadow side (#9fd3ec / #c9d4e0). Must also work tiny (13-22px) in legends and lists — make v1 a simple bold mark and v2 a richer sticker version.",
+   "drafts": [
+    "ski-mountain.v1.svg",
+    "ski-mountain.v2.svg",
+    "ski-mountain.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 = a richer ski scene sticker (keep v1 as the tiny category mark): snowy powdery mountain with a gondola cable line and 1-2 gondola cabins, 2-3 tiny skiers on the slope (stick figures with skis/poles), one snowboarder, and crossed skis or a snowboard planted in the snow at the base, pine trees, powder spray."
+  },
+  {
+   "name": "blue-heeler",
+   "title": "Paraibuna — blue heeler dog",
+   "batch": "new",
+   "replaces": null,
+   "refs": [
+    "paraibuna-blue-heeler.png"
+   ],
+   "brief": "Australian cattle dog (blue heeler): blue-grey speckled/mottled coat (#5d5a66, #9a95a6, #c9d4e0 flecks), tan points on legs/cheeks/brows (#c38a62), big upright pointed ears, white blaze on forehead, sitting or standing alert. Friendly. Optional grassy hill.",
+   "drafts": [
+    "blue-heeler.v1.svg",
+    "blue-heeler.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "flex-frame",
+   "title": "Playa del Carmen — Flex logo in a wooden frame",
+   "batch": "new",
+   "replaces": null,
+   "refs": [
+    "flex-logo-chosen.png",
+    "flex-logo-mark.svg"
+   ],
+   "brief": "Square wooden block/frame (warm wood #a9783f/#c38a62 with grain strokes) standing on white sand, with the Flex X mark (4 rounded lobes, use the shape in refs/flex-logo-mark.svg) cut out through it so the turquoise sea and sky show through the hole; a palm tree beside it.",
+   "drafts": [
+    "flex-frame.v1.svg",
+    "flex-frame.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "kinkaku-ji",
+   "title": "Kyoto — Kinkaku-ji (Golden Pavilion)",
+   "batch": "new",
+   "replaces": null,
+   "refs": [
+    "japan-unknown.png"
+   ],
+   "brief": "Three-storey gold-leaf pavilion (#e8b23a / #f6d26b) with dark curved roofs and a little phoenix on top, sitting at the edge of a pond with its reflection, pine trees (bonsai-like) around. Reflection can be a simplified lighter mirrored shape.",
+   "drafts": [
+    "kinkaku-ji.v1.svg",
+    "kinkaku-ji.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v1"
+  },
+  {
+   "name": "manaus-jungle-hotel",
+   "title": "Manaus — Amazon rainforest + river hotel",
+   "batch": "new",
+   "replaces": "meeting-of-waters",
+   "refs": [
+    "manaus-river-hotel.png",
+    "manaus-pink-dolphin.png"
+   ],
+   "brief": "Dark Amazon river channel between walls of dense rainforest canopy (puffy greens), with a floating wooden/terracotta-roofed jungle hotel on the water (a few stacked blocks, decks, a long pontoon walkway) and a small canoe. Oblique, not top-down.",
+   "drafts": [
+    "manaus-jungle-hotel.v1.svg",
+    "manaus-jungle-hotel.v2.svg",
+    "manaus-jungle-hotel.v3.svg"
+   ],
+   "status": "picked",
+   "pick": "v3",
+   "notes": "Round 2 (Greg): v3 = v2 but: river colour clearer and brighter (lighter teal-brown/clear blue-green, e.g. #7fc9c2 with #3f8f7a ripples, not near-black), and add a pink river dolphin (boto cor-de-rosa, #f2a3b3 body, long thin beak, small rounded dorsal hump) arching out of the water in the foreground, with a splash ring."
+  },
+  {
+   "name": "roraima-kukenan",
+   "title": "Monte Roraima + Kukenán with red trail",
+   "batch": "new",
+   "replaces": "monte-roraima",
+   "refs": [
+    "roraima-kukenan.png"
+   ],
+   "brief": "Two flat-topped tepuis side by side: Kukenán on the left (smaller, steeper, blockier) and Roraima on the right (long, wide flat top), vertical cliff walls (blue-grey #5d5a66/#7d6a5c) over green savanna slopes, a cloud wisp. A little red dotted trail (#d9573b dots) climbing diagonally from the bottom-right up to the top-left onto Roraima's ramp.",
+   "drafts": [
+    "roraima-kukenan.v1.svg",
+    "roraima-kukenan.v2.svg"
+   ],
+   "status": "picked",
+   "pick": "v2"
+  },
+  {
+   "name": "el-toro-barrel",
+   "title": "El Toro (El Salvador) — barrelling right",
+   "batch": "surf",
+   "replaces": null,
+   "refs": [
+    "el-toro-barrel.png",
+    "punta-mango-barrel.png"
+   ],
+   "brief": "New sticker for the el-toro surf break. Bold barrelling wave in the style of the black logo ref (curling lip with spray, surfer crouched in the tube) but rendered in the atlas palette (teal/sea blues, white foam) and MIRRORED so it is a RIGHT-hander: the surfer rides to the RIGHT of the picture, as seen looking at the beach. Must differ from punta-mango-barrel (more stylised, graphic, rounder curl).",
+   "drafts": [
+    "el-toro-barrel.v1.svg",
+    "el-toro-barrel.v2.svg",
+    "el-toro-barrel.v3.svg",
+    "el-toro-barrel.v4.svg",
+    "el-toro-barrel.v5.svg"
+   ],
+   "status": "picked",
+   "notes": "Greg's first-ever barrel (right-hander). Round 3, surfer IN the tube: v3 = layered blue tube, rider deep inside; v4 = round badge, curl fills a cream disc; v5 = open wave, rider in the pocket, ragged lip.",
+   "pick": "v5"
+  }
+ ]
+}

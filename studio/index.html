@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icon studio</title>
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2b2733;--paper:#fbf4e2;--paper2:#f3e8cc;--sea:#9fd3ec;--hand:"Patrick Hand","Comic Sans MS",cursive;--toon:"Luckiest Guy","Arial Black",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#e9dcc0;color:var(--ink);font:16px/1.35 var(--hand)}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 18px;background:var(--paper);border-bottom:2px solid var(--ink)}
+h1{margin:0;font:400 24px var(--toon);letter-spacing:.5px}
+header button,header select{font:inherit;padding:4px 10px;border:1.6px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer}
+#picks{flex:1;min-width:240px;font:14px ui-monospace,monospace;padding:6px 8px;border:1.6px dashed var(--ink);border-radius:8px;background:#fff;white-space:pre-wrap}
+main{padding:18px;display:grid;gap:18px}
+.item{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:300px 1fr;gap:16px}
+.item h2{margin:0 0 4px;font:400 20px var(--toon)}
+.meta{font-size:14px;opacity:.8}
+.brief{font-size:15px;margin:6px 0}
+.refs{display:flex;gap:6px;flex-wrap:wrap}
+.refs img{height:110px;border:1.5px solid var(--ink);border-radius:6px;cursor:zoom-in;background:#fff}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.card{border:1.6px solid var(--ink);border-radius:10px;background:#fff;padding:8px;cursor:pointer;position:relative}
+.card.cur{cursor:default;opacity:.85;border-style:dashed}
+.card.pick{outline:4px solid #2f9d62;outline-offset:2px}
+.card .lbl{font:400 14px var(--toon);margin-bottom:4px}
+.card .kb{position:absolute;right:8px;top:6px;font-size:12px;opacity:.6}
+.sizes{display:flex;gap:10px;align-items:flex-end}
+.bg{display:flex;align-items:flex-end;justify-content:center;border-radius:6px;padding:6px}
+.bg.paper{background:var(--paper2)}
+.bg.sea{background:var(--sea) repeating-linear-gradient(170deg,transparent 0 14px,rgba(255,255,255,.35) 14px 16px)}
+.bg svg{display:block;height:auto}
+.empty{font-style:italic;opacity:.6;padding:20px}
+.status{display:inline-block;font-size:12px;padding:1px 7px;border-radius:9px;border:1.2px solid var(--ink);margin-left:6px;vertical-align:3px}
+.status.todo{background:#eee}.status.drafted{background:#f6d26b}.status.picked{background:#acd88a}
+#zoom{position:fixed;inset:0;background:rgba(20,18,25,.85);display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
+#zoom img{max-width:92vw;max-height:92vh;border-radius:8px}
+.notes{font-size:13px;opacity:.75;margin-top:4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Icon studio</h1>
+  <select id="batch"><option value="">all batches</option></select>
+  <select id="show"><option value="">all</option><option value="drafted">drafted</option><option value="todo">todo</option><option value="picked">picked</option></select>
+  <button id="copy" title="Copy your picks to paste back to the agent">Copy picks</button>
+  <button id="clear">Clear picks</button>
+  <div id="picks" aria-live="polite"></div>
+</header>
+<main id="list"></main>
+<div id="zoom"><img alt=""></div>
+<script type="module">
+const $ = s => document.querySelector(s);
+const SIZES = [32, 64, 128];
+const bust = `?t=${Date.now()}`;
+const manifest = await (await fetch(`../icons/drafts/manifest.json${bust}`)).json();
+const picks = JSON.parse(localStorage.getItem('studio-picks') || '{}');
+const svgCache = new Map();
+async function svg(path) {
+  if (!svgCache.has(path)) svgCache.set(path, fetch(path + bust).then(r => r.ok ? r.text() : ''));
+  return svgCache.get(path);
+}
+const h = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids.filter(k => k != null)); return e; };
+// parse in an inert document with the same HTML rules the atlas uses (it tolerates e.g. duplicate attributes),
+// then strip anything executable before adopting the node
+function svgNode(src, w) {
+  const root = new DOMParser().parseFromString(src, 'text/html').querySelector('svg');
+  if (!root) return h('div', {className: 'empty', textContent: 'invalid SVG'});
+  root.querySelectorAll('script,foreignObject').forEach(n => n.remove());
+  for (const n of [root, ...root.querySelectorAll('*')]) for (const a of [...n.attributes]) if (/^on/i.test(a.name) || /^\s*javascript:/i.test(a.value)) n.removeAttribute(a.name);
+  root.setAttribute('width', w); return document.importNode(root, true);
+}
+const versionOf = f => (f.match(/\.(v\d+[a-z]?)\.svg$/) || [, f])[1];
+
+for (const b of [...new Set(manifest.items.map(i => i.batch))]) $('#batch').append(new Option(b, b));
+
+async function card(label, path, {current = false, name, chosen} = {}) {
+  const src = await svg(path);
+  const el = h('div', {className: 'card' + (current ? ' cur' : '') + (!current && (picks[name] ?? chosen) === label ? ' pick' : '')}, h('div', {className: 'lbl', textContent: label}));
+  if (!src) { el.append(h('div', {className: 'empty', textContent: `missing ${path}`})); return el; }
+  el.append(h('span', {className: 'kb', textContent: `${(new Blob([src]).size / 1024).toFixed(1)} KB`}),
+    h('div', {className: 'sizes'}, ...SIZES.map(w => h('div', {className: `bg ${w === 64 ? 'sea' : 'paper'}`}, svgNode(src, w)))));
+  if (!current) el.onclick = () => { picks[name] = picks[name] === label ? undefined : label; if (!picks[name]) delete picks[name]; save(); render(); };
+  return el;
+}
+function save() { localStorage.setItem('studio-picks', JSON.stringify(picks)); showPicks(); }
+function showPicks() { const t = Object.entries(picks).map(([n, v]) => `${n} ${v}`).join(', '); $('#picks').textContent = t || 'Click a draft to pick it. Picks appear here; Copy picks and paste them to the agent with any feedback.'; return t; }
+
+async function render() {
+  const list = $('#list'), batch = $('#batch').value, show = $('#show').value; list.textContent = '';
+  for (const it of manifest.items) {
+    if (batch && it.batch !== batch) continue;
+    if (show && it.status !== show) continue;
+    const box = document.createElement('section'); box.className = 'item'; box.id = it.name;
+    const refs = h('div', {className: 'refs'});
+    for (const r of it.refs) { const i = new Image(); i.src = `../icons/refs/${r}`; i.alt = r; i.onclick = () => { $('#zoom img').src = i.src; $('#zoom').style.display = 'flex'; }; refs.append(i); }
+    const left = h('div', {},
+      h('h2', {textContent: it.title}, h('span', {className: `status ${it.status}`, textContent: it.status})),
+      h('div', {className: 'meta', textContent: `${it.name} · batch ${it.batch} · ${it.replaces ? `replaces ${it.replaces}` : 'new'}`}),
+      h('p', {className: 'brief', textContent: it.brief}), refs,
+      it.notes ? h('div', {className: 'notes', textContent: it.notes}) : null);
+    const right = document.createElement('div'); right.className = 'row';
+    if (it.replaces) right.append(await card('current', `../icons/${it.replaces}.svg`, {current: true}));
+    for (const f of it.drafts) right.append(await card(versionOf(f), `../icons/drafts/${f}`, {name: it.name, chosen: it.pick}));
+    if (!it.drafts.length) right.append(h('div', {className: 'empty', textContent: 'no drafts yet'}));
+    box.append(left, right); list.append(box);
+  }
+}
+$('#batch').onchange = $('#show').onchange = render;
+$('#copy').onclick = () => navigator.clipboard.writeText(showPicks());
+$('#clear').onclick = () => { for (const k in picks) delete picks[k]; save(); render(); };
+$('#zoom').onclick = () => $('#zoom').style.display = 'none';
+showPicks(); await render();
+if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+document.body.dataset.ready = '1';
+</script>
+</body>
+</html>
