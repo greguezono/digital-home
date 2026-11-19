@@ -361,7 +361,8 @@
       "country": "France",
       "region": "Europe",
       "categories": [
-        "visited"
+        "visited",
+        "skied"
       ],
       "coordinates": [
         6.87,
@@ -390,7 +391,8 @@
       "country": "Switzerland",
       "region": "Europe",
       "categories": [
-        "visited"
+        "visited",
+        "skied"
       ],
       "coordinates": [
         7.2287,
@@ -955,7 +957,8 @@
       "country": "Canada",
       "region": "North America",
       "categories": [
-        "visited"
+        "visited",
+        "skied"
       ],
       "coordinates": [
         -122.9543,
@@ -2202,6 +2205,141 @@
           "url": "https://www.surf-forecast.com/breaks/Piscinas/forecasts/latest"
         }
       ]
+    },
+    {
+      "id": "nozawa-onsen",
+      "name": "Nozawa Onsen",
+      "country": "Japan",
+      "region": "Asia",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        138.444,
+        36.9225
+      ],
+      "precision": "place",
+      "area": "Nagano"
+    },
+    {
+      "id": "vail",
+      "name": "Vail",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -106.3742,
+        39.6403
+      ],
+      "precision": "place",
+      "area": "Colorado"
+    },
+    {
+      "id": "aspen",
+      "name": "Aspen",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -106.8175,
+        39.1911
+      ],
+      "precision": "place",
+      "area": "Colorado"
+    },
+    {
+      "id": "park-city",
+      "name": "Park City",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -111.498,
+        40.6461
+      ],
+      "precision": "place",
+      "area": "Utah"
+    },
+    {
+      "id": "mammoth",
+      "name": "Mammoth Mountain",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -119.0326,
+        37.6308
+      ],
+      "precision": "place",
+      "area": "California"
+    },
+    {
+      "id": "palisades-tahoe",
+      "name": "Palisades Tahoe",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -120.2354,
+        39.1969
+      ],
+      "precision": "place",
+      "area": "Lake Tahoe"
+    },
+    {
+      "id": "heavenly",
+      "name": "Heavenly",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -119.94,
+        38.9353
+      ],
+      "precision": "place",
+      "area": "Lake Tahoe"
+    },
+    {
+      "id": "sierra-at-tahoe",
+      "name": "Sierra-at-Tahoe",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -120.0806,
+        38.7993
+      ],
+      "precision": "place",
+      "area": "Lake Tahoe"
+    },
+    {
+      "id": "northstar",
+      "name": "Northstar",
+      "country": "United States",
+      "region": "North America",
+      "categories": [
+        "skied"
+      ],
+      "coordinates": [
+        -120.1213,
+        39.2746
+      ],
+      "precision": "place",
+      "area": "Lake Tahoe"
     }
   ]
 }

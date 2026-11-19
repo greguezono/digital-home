@@ -281,6 +281,83 @@
     "berkeley",
     "oakland"
    ]
+  },
+  {
+   "id": "tahoe-ski",
+   "cat": "skied",
+   "title": "Lake Tahoe",
+   "places": [
+    "palisades-tahoe",
+    "northstar",
+    "heavenly",
+    "sierra-at-tahoe"
+   ],
+   "offset": [
+    70,
+    -60
+   ],
+   "align": "left",
+   "minZoom": 3.2
+  },
+  {
+   "id": "west-ski",
+   "cat": "skied",
+   "title": "Mountain West",
+   "places": [
+    "mammoth",
+    "park-city",
+    "aspen",
+    "vail"
+   ],
+   "offset": [
+    40,
+    30
+   ],
+   "align": "left",
+   "minZoom": 3.2
+  },
+  {
+   "id": "whistler-ski",
+   "cat": "skied",
+   "title": "British Columbia",
+   "places": [
+    "whistler"
+   ],
+   "offset": [
+    -30,
+    -20
+   ],
+   "align": "right",
+   "minZoom": 3.2
+  },
+  {
+   "id": "alps-ski",
+   "cat": "skied",
+   "title": "Alps",
+   "places": [
+    "chamonix",
+    "verbier"
+   ],
+   "offset": [
+    -40,
+    30
+   ],
+   "align": "right",
+   "minZoom": 3.2
+  },
+  {
+   "id": "japan-ski",
+   "cat": "skied",
+   "title": "Japan Alps",
+   "places": [
+    "nozawa-onsen"
+   ],
+   "offset": [
+    -40,
+    -30
+   ],
+   "align": "right",
+   "minZoom": 3.2
   }
  ],
  "stickers": [
@@ -2392,6 +2469,26 @@
     0.75
    ],
    "maxScale": 2.0
+  },
+  {
+   "icon": "ski-mountain",
+   "group": "tahoe-ski",
+   "label": "Lake Tahoe powder days",
+   "width": 40,
+   "offset": [
+    0,
+    -30
+   ],
+   "at": [
+    -120.04,
+    39.09
+   ],
+   "anchor": [
+    0.5,
+    0.9
+   ],
+   "maxScale": 2.0,
+   "minZoom": 3.2
   }
  ],
  "journey": {
