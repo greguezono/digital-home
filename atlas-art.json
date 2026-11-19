@@ -158,7 +158,6 @@
    "title": "South Florida",
    "list": false,
    "places": [
-    "plantation",
     "boca-raton"
    ]
   },
@@ -454,6 +453,21 @@
    ]
   },
   {
+   "icon": "blue-heeler",
+   "place": "paraibuna",
+   "label": "Blue heeler",
+   "width": 26,
+   "offset": [
+    20,
+    -14
+   ],
+   "anchor": [
+    0.5,
+    0.9
+   ],
+   "maxScale": 2.2
+  },
+  {
    "icon": "camburi-beach",
    "group": "sao-paulo-surf",
    "label": "Camburi beach",
@@ -474,7 +488,7 @@
   },
   {
    "icon": "san-jacinto-tramway",
-   "place": "palm-desert",
+   "place": "palm-springs",
    "label": "San Jacinto & the Aerial Tramway",
    "width": 50,
    "offset": [
@@ -486,22 +500,6 @@
     1
    ],
    "maxScale": 1.6,
-   "sideBy": true
-  },
-  {
-   "icon": "old-north-church",
-   "place": "boston",
-   "label": "Old North Church",
-   "width": 22,
-   "offset": [
-    -22,
-    -6
-   ],
-   "anchor": [
-    1,
-    1
-   ],
-   "maxScale": 2.2,
    "sideBy": true
   },
   {
@@ -1123,6 +1121,25 @@
    "at": [
     135.5016,
     34.6687
+   ],
+   "anchor": [
+    0.5,
+    0.9
+   ],
+   "maxScale": 2.2
+  },
+  {
+   "icon": "kinkaku-ji",
+   "place": "kyoto",
+   "label": "Kinkaku-ji, the Golden Pavilion",
+   "width": 34,
+   "offset": [
+    16,
+    -14
+   ],
+   "at": [
+    135.7295,
+    35.0395
    ],
    "anchor": [
     0.5,
@@ -2213,6 +2230,21 @@
    "maxScale": 2.2
   },
   {
+   "icon": "flex-frame",
+   "place": "playa-del-carmen",
+   "label": "Flex logo on the beach",
+   "width": 34,
+   "offset": [
+    18,
+    -10
+   ],
+   "anchor": [
+    0.5,
+    0.9
+   ],
+   "maxScale": 2.2
+  },
+  {
    "icon": "punta-mango-barrel",
    "label": "Punta Mango",
    "width": 34,
@@ -2365,12 +2397,13 @@
  "journey": {
   "title": "Homes",
   "places": [
-   "palm-desert",
-   "boston",
-   "plantation",
+   "palm-springs",
    "memphis",
+   "sao-paulo",
    "brooklyn",
+   "sao-paulo",
    "shreveport",
+   "sao-paulo",
    "bradenton",
    "boca-raton",
    "berkeley",

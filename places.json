@@ -8,19 +8,20 @@
   ],
   "places": [
     {
-      "id": "palm-desert",
-      "name": "Palm Desert",
+      "id": "palm-springs",
+      "name": "Palm Springs",
       "country": "United States",
       "region": "North America",
       "categories": [
         "lived"
       ],
       "coordinates": [
-        -116.3826,
-        33.7288
+        -116.5453,
+        33.8303
       ],
       "precision": "city",
-      "area": "California"
+      "area": "California",
+      "note": "Born here."
     },
     {
       "id": "berkeley",
@@ -66,36 +67,6 @@
       ],
       "precision": "city",
       "area": "California"
-    },
-    {
-      "id": "boston",
-      "name": "Boston",
-      "country": "United States",
-      "region": "North America",
-      "categories": [
-        "lived"
-      ],
-      "coordinates": [
-        -71.0578,
-        42.3588
-      ],
-      "precision": "city",
-      "area": "Massachusetts"
-    },
-    {
-      "id": "plantation",
-      "name": "Plantation",
-      "country": "United States",
-      "region": "North America",
-      "categories": [
-        "lived"
-      ],
-      "coordinates": [
-        -80.2331,
-        26.1276
-      ],
-      "precision": "city",
-      "area": "Florida"
     },
     {
       "id": "bradenton",
@@ -186,6 +157,21 @@
         -23.5507
       ],
       "precision": "city"
+    },
+    {
+      "id": "paraibuna",
+      "name": "Paraibuna",
+      "country": "Brazil",
+      "region": "South America",
+      "categories": [
+        "visited"
+      ],
+      "coordinates": [
+        -45.6627,
+        -23.3864
+      ],
+      "precision": "city",
+      "area": "São Paulo"
     },
     {
       "id": "rome",
@@ -849,6 +835,20 @@
         34.6938
       ],
       "precision": "place"
+    },
+    {
+      "id": "kyoto",
+      "name": "Kyoto",
+      "country": "Japan",
+      "region": "Asia",
+      "categories": [
+        "visited"
+      ],
+      "coordinates": [
+        135.7681,
+        35.0116
+      ],
+      "precision": "city"
     },
     {
       "id": "ho-chi-minh-city",
@@ -1686,6 +1686,21 @@
       ],
       "precision": "area",
       "note": "Exact break not specified."
+    },
+    {
+      "id": "playa-del-carmen",
+      "name": "Playa del Carmen",
+      "country": "Mexico",
+      "region": "North America",
+      "categories": [
+        "visited"
+      ],
+      "coordinates": [
+        -87.0739,
+        20.6296
+      ],
+      "precision": "city",
+      "area": "Quintana Roo"
     },
     {
       "id": "km59",

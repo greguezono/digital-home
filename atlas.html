@@ -295,7 +295,7 @@ const countryEls = countries.features.map(f => { const p = f.properties, h = [..
   return {p, e:add('cname', p.label), rot:((h % 9) - 4) * 1.2}; });
 const stickerEls = stickers.filter(s => svgs[s.icon]).map(s => ({s, at:anchorOf(s), e:add('doodle', svgs[s.icon].replace('<svg', `<svg width="${s.width}"`), s.place ? {id:s.place, tip:s.label} : {group:s.group, tip:s.label})}));
 const journey = (art.journey?.places ?? []).filter(id => byId.get(id)?.categories.includes('lived') || problems.push(`journey: ${id} is not a lived place`) && false);
-const homeEls = new Map(journey.map(id => [id, add('home', `${HOME(40)}<span class="no"></span><span class="lbl"></span>`, {id})]));
+const homeEls = new Map([...new Set(journey)].map(id => [id, add('home', `${HOME(40)}<span class="no"></span><span class="lbl"></span>`, {id})]));
 const homeOf = new Map();
 const pinEls = new Map(places.map(p => [p.id, add('pin', `<svg></svg><span class="badge"></span><span class="lbl">${p.name}</span>`, {id:p.id})]));
 const spotEls = new Map([...groupOf.keys()].map(id => [id, add('spot', `<i></i><span class="lbl">${esc(byId.get(id).name)}</span>`, {id})]));
@@ -390,12 +390,14 @@ function layout() {
 }
 
 // ---------- lived journey: numbered homes joined in order by a dotted trail ----------
-// homes closer than HOME_GAP px share one house whose tag lists every stop, e.g. "2·3·4"
+// a place lived in more than once, or homes closer than HOME_GAP px, share one house whose tag lists every stop, e.g. "3·5·7·13"
 const HOME_GAP = 30, PHONE_LIST_ZOOM = 4.5;
 function layoutJourney(z, off) {
   const on = enabled.has('lived'), stops = [];
   homeOf.clear();
   for (const [i, id] of journey.entries()) {
+    const seen = homeOf.has(id) && stops.find(h => h.id === homeOf.get(id));
+    if (seen) { seen.nos.push(i + 1); continue; }
     const s = proj(byId.get(id).coordinates), host = z < 11 && stops.find(h => Math.hypot(h.s.x - s.x, h.s.y - s.y) < HOME_GAP);
     if (host) { host.nos.push(i + 1); host.ids.push(id); homeOf.set(id, host.id); } else { stops.push({id, s, nos:[i + 1], ids:[id]}); homeOf.set(id, id); }
   }
@@ -534,7 +536,7 @@ ov.addEventListener('click', e => {
   const t = e.target.closest('[data-id],[data-group]'); if (!t) return;
   if (t.dataset.list) return groupCard(groupById.get(t.dataset.group));
   if (t.dataset.group) return map.fitBounds(bboxOf(groupById.get(t.dataset.group).places.map(id => byId.get(id).coordinates)), {padding:safePad(), maxZoom:11, duration:1200});
-  if (t.classList.contains('home') && t.dataset.multi) return map.fitBounds(bboxOf(journey.filter(id => homeOf.get(id) === t.dataset.id).map(id => byId.get(id).coordinates)), {padding:{top:120, bottom:120, left:120, right:120}, maxZoom:12, duration:1000});
+  if (t.classList.contains('home') && t.dataset.multi) return map.fitBounds(bboxOf([...homeEls.keys()].filter(id => homeOf.get(id) === t.dataset.id).map(id => byId.get(id).coordinates)), {padding:{top:120, bottom:120, left:120, right:120}, maxZoom:12, duration:1000});
   const m = t.classList.contains('pin') && clusters.get(t.dataset.id);
   if (m && m.length > 1) return map.fitBounds(bboxOf(m.map(p => p.coordinates)), {padding:{top:110, bottom:110, left:110, right:110}, maxZoom:14, duration:1000});
   pick(t.dataset.id, true);
