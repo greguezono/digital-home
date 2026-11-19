@@ -31,7 +31,7 @@
 .pin{pointer-events:auto;cursor:pointer;width:0;height:0}
 .pin svg{position:absolute;left:0;bottom:0;transform:translateX(-50%);overflow:visible;filter:drop-shadow(0 1.5px 0 rgba(43,39,51,.25))}
 .pin .lbl{position:absolute;left:10px;top:-14px;font-size:13.5px;white-space:nowrap;color:var(--ink);text-shadow:0 0 3px var(--paper),0 0 3px var(--paper),0 0 2px var(--paper);display:none}
-.zoomed .pin .lbl{display:block}
+.zoomed .pin .lbl{display:block}.pin.cluster .lbl{display:none}
 .pin.cluster svg{display:none}
 .pin .badge{display:none;position:absolute;transform:translate(-50%,-50%);min-width:28px;height:28px;padding:0 6px;border-radius:50%;background:var(--paper);border:2.2px solid var(--ink);box-shadow:0 0 0 2.5px var(--ring,#2f9d62),1.5px 2px 0 2.5px rgba(43,39,51,.35);font:15px/24px var(--toon);text-align:center;color:var(--ink)}
 .pin.cluster .badge{display:block}
@@ -140,7 +140,7 @@
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wob" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></svg>
 <div id="map" aria-label="Illustrated travel map"></div>
-<div id="ov"><svg id="journey"><path id="jarrows" fill="#d9573b" stroke="#2b2733" stroke-width="1.2" stroke-linejoin="round"/></svg><svg id="leaders"><path id="lead" fill="none" stroke="#2b2733" stroke-width="1" stroke-dasharray="1.2 2.6" stroke-linecap="round" opacity=".8"/><path id="leadsel" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="2 3" stroke-linecap="round"/></svg></div>
+<div id="ov"><svg id="journey"><path id="jarrows" fill="#d9573b" stroke="#2b2733" stroke-width="1.2" stroke-linejoin="round"/></svg><svg id="leaders"><path id="lead" fill="none" stroke="#2b2733" stroke-width="1" stroke-dasharray="1.2 2.6" stroke-linecap="round" opacity=".8"/><path id="slead" fill="none" stroke="#2b2733" stroke-width="1" stroke-dasharray="1.2 2.6" stroke-linecap="round" opacity=".7"/><path id="leadsel" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="2 3" stroke-linecap="round"/></svg></div>
 <div id="grain"></div>
 <svg id="compass" viewBox="-50 -50 100 100" aria-hidden="true"><g stroke="#2b2733" stroke-width="1.6" stroke-linejoin="round"><circle r="30" fill="#fbf4e2"/><circle r="25" fill="none" stroke-dasharray="2 3"/><path d="M0-44 7-7 0 0Z" fill="#d9573b"/><path d="M0-44-7-7 0 0Z" fill="#fbf4e2"/><path d="M0 44-7 7 0 0Z" fill="#2b2733"/><path d="M0 44 7 7 0 0Z" fill="#fbf4e2"/><path d="M44 0 7 7 0 0Z" fill="#2b2733"/><path d="M44 0 7-7 0 0Z" fill="#fbf4e2"/><path d="M-44 0-7-7 0 0Z" fill="#2b2733"/><path d="M-44 0-7 7 0 0Z" fill="#fbf4e2"/></g><text y="-36" x="-1" font-family="Luckiest Guy" font-size="11" text-anchor="middle" fill="#2b2733" dy="-10">N</text></svg>
 <header id="title" class="paper">
@@ -213,6 +213,7 @@ const svgs = Object.fromEntries(await Promise.all([...new Set(stickers.map(s => 
 })));
 if (problems.length) console.warn('atlas-art.json:', problems);
 const centroid = ids => ids.map(i => byId.get(i).coordinates).reduce((a, c, _, l) => [a[0] + c[0] / l.length, a[1] + c[1] / l.length], [0, 0]);
+const aspectOf = svg => { const v = (svg.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1 1').split(/[\s,]+/).map(Number); return v[3] / v[2]; };
 const anchorOf = s => s.at ?? (s.place ? byId.get(s.place).coordinates : centroid(groupById.get(s.group).places));
 const stickerOn = s => [...(s.place ? [s.place] : groupById.get(s.group).places), ...(s.alsoPlaces ?? [])].some(id => byId.has(id) && badge(byId.get(id)));
 
@@ -295,7 +296,7 @@ if (coarse) map.getCanvasContainer().append($('#ov'));
 const ov = $('#ov'), add = (cls, html, data = {}) => { const e = el('div', {className:cls}, html); Object.assign(e.dataset, data); ov.append(e); return e; };
 const countryEls = countries.features.map(f => { const p = f.properties, h = [...p.country].reduce((a, c) => a + c.charCodeAt(0), 0);
   return {p, e:add('cname', p.label), rot:((h % 9) - 4) * 1.2}; });
-const stickerEls = stickers.filter(s => svgs[s.icon]).map(s => ({s, at:anchorOf(s), e:add('doodle', svgs[s.icon].replace('<svg', `<svg width="${s.width}"`), s.place ? {id:s.place, tip:s.label} : {group:s.group, tip:s.label})}));
+const stickerEls = stickers.filter(s => svgs[s.icon]).map(s => ({s, at:anchorOf(s), ar:aspectOf(svgs[s.icon]), dx:0, dy:0, mul:1, e:add('doodle', svgs[s.icon].replace('<svg', `<svg width="${s.width}"`), s.place ? {id:s.place, tip:s.label} : {group:s.group, tip:s.label})}));
 const journey = (art.journey?.places ?? []).filter(id => byId.get(id)?.categories.includes('lived') || problems.push(`journey: ${id} is not a lived place`) && false);
 const homeEls = new Map([...new Set(journey)].map(id => [id, add('home', `${HOME(40)}<span class="no"></span><span class="lbl"></span>`, {id})]));
 const homeOf = new Map();
@@ -320,23 +321,24 @@ const show = (e, on) => { e.style.display = on ? '' : 'none'; };
 
 function layout() {
   const z = map.getZoom(), w = innerWidth, h = innerHeight, phone = phoneQ.matches, ppd = 512 * 2 ** z / 360, off = (pt, m = 80) => pt.x < -m || pt.y < -m || pt.x > w + m || pt.y > h + m;
-  document.body.classList.toggle('zoomed', z >= 5.2); document.body.classList.toggle('zoomed-hi', z >= 7.5);
+  document.body.classList.toggle('zoomed', z >= TIER.names); document.body.classList.toggle('zoomed-hi', z >= TIER.city);
   for (const {p, e, rot} of countryEls) {
     const fs = clamp(p.w * ppd * .4, 0, 46), pt = proj([p.lx, p.ly]), on = active.has(p.country) && fs >= 9 && z < 5.5 && !off(pt);
     show(e, on); if (on) { e.style.fontSize = fs + 'px'; place(e, pt.x, pt.y, ` translate(-50%,-50%) rotate(${rot}deg)`); }
   }
-  const coveredIds = new Set();
-  for (const {s, at, e} of stickerEls) {
-    // the offset nudges stickers clear of pins at world zoom and eases to 0 by zoom 4, so the sticker then sits on its real location
-    // size grows with the map, capped at maxScale × width so it never swallows a city view
-    // sideBy stickers keep their offset at every zoom so they sit beside a lived home instead of under it
-    const k = s.sideBy ? 1 : clamp((4 - z) / 2.5, 0, 1), a = proj(at), x = a.x + s.offset[0] * k, y = a.y + s.offset[1] * k;
-    const sc = clamp(2 ** ((z - map.getMinZoom()) * .75), 1, s.maxScale ?? 3.5) * (phone ? .75 : 1), on = z >= (s.minZoom ?? 0) && stickerOn(s) && !off({x, y}, s.width * sc + 40);
+  const coveredIds = new Set(); let sl = '';
+  declutter(z, phone);
+  for (const o of stickerEls) {
+    const {s, e} = o, {x: bx, y: by, sc: bsc} = stickerBase(o, z, phone), x = bx + o.dx, y = by + o.dy, sc = bsc * o.mul;
+    const on = stickerOn(s) && !off({x, y}, s.width * sc + 40);
     show(e, on);
     // below city zoom a sticker-only group's sticker stands in for its members' pins and cluster badge
-    if (on && s.group && groupById.get(s.group).list === false && z < 5.2) groupById.get(s.group).places.forEach(id => coveredIds.add(id));
-    if (on) { const [ax, ay] = s.anchor ?? [.5, 1]; e.style.transformOrigin = `${ax * 100}% ${ay * 100}%`; place(e, x, y, ` translate(${-ax * 100}%,${-ay * 100}%) scale(${sc})`); }
+    if (on && s.group && groupById.get(s.group).list === false && z < TIER.cover) groupById.get(s.group).places.forEach(id => coveredIds.add(id));
+    if (!on) continue;
+    const [ax, ay] = s.anchor ?? [.5, 1]; e.style.transformOrigin = `${ax * 100}% ${ay * 100}%`; place(e, x, y, ` translate(${-ax * 100}%,${-ay * 100}%) scale(${sc})`);
+    if (Math.hypot(o.dx, o.dy) > 14) { const a = proj(o.at); sl += `M${a.x.toFixed(1)} ${a.y.toFixed(1)}L${x.toFixed(1)} ${y.toFixed(1)}`; }
   }
+  $('#slead').setAttribute('d', sl);
   // greedy screen-space clustering for lived + visited pins
   layoutJourney(z, off);
   const pts = places.filter(p => badge(p) && !groupOf.has(p.id) && !coveredIds.has(p.id) && !(homeEls.has(p.id) && badge(p) === 'lived')).map(p => ({p, s:proj(p.coordinates)})).filter(o => !off(o.s, 40))
@@ -377,7 +379,7 @@ function layout() {
       for (const id of ids) { const s = proj(byId.get(id).coordinates), seg = `M${lx.toFixed(1)} ${(y + b._h / 2).toFixed(1)}L${s.x.toFixed(1)} ${s.y.toFixed(1)}`; d += seg; if (id === selected) ds2 += seg; }
       continue;
     }
-    const on = z < 7.5 && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
+    const on = z < TIER.city && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
     e._w ??= e.offsetWidth; a.y -= (e._h ??= e.offsetHeight) / 2; let x = g.align === 'right' ? a.x - e._w : a.x;
     if (phone) { x = clamp(x, 6, w - e._w - 6); a.x = g.align === 'right' ? x + e._w : x; }
     place(e, x, a.y);
@@ -389,6 +391,50 @@ function layout() {
     }
   }
   $('#lead').setAttribute('d', d); $('#leadsel').setAttribute('d', ds2);
+}
+
+// ---------- zoom tiers + sticker declutter ----------
+// world (below region): every sticker, no place names; region: place names and offshore lists; city: pins and spot names, lists hidden
+// list:false group stickers stand in for their members' pins until TIER.cover
+const TIER = {region:4, names:4.5, cover:5.2, city:7.5};
+// the offset nudges stickers clear of pins at world zoom and eases to 0 by zoom 4, so the sticker then sits on its real location
+// size grows with the map, capped at maxScale × width so it never swallows a city view
+// sideBy stickers keep their offset at every zoom so they sit beside a lived home instead of under it
+function stickerBase({s, at}, z, phone) {
+  const k = s.sideBy ? 1 : clamp((4 - z) / 2.5, 0, 1), a = proj(at);
+  return {x:a.x + s.offset[0] * k, y:a.y + s.offset[1] * k, sc:clamp(2 ** ((z - map.getMinZoom()) * .75), 1, s.maxScale ?? 3.5) * (phone ? .75 : 1)};
+}
+// greedy screen-space placement, recomputed per quarter zoom step: stickers with a minZoom (dense spots such as Greece or Puglia),
+// and every sticker from region zoom on, take the nearest free slot clear of pins, homes, place names and earlier stickers;
+// at world zoom one that cannot fit shrinks, and any sticker moved off its spot gets a dotted leader back to it
+let clutterKey = null;
+const rings = rs => [[0, 0], ...rs.flatMap(r => [0, 1, 2, 3, 4, 5, 6, 7].map(i => [r * Math.cos(i * Math.PI / 4 + Math.PI / 2), r * Math.sin(i * Math.PI / 4 + Math.PI / 2)]))];
+const NEAR = rings([.45, .8]), FAR = rings([.45, .8, 1.2]);
+function declutter(z, phone) {
+  const zq = Math.round(z * 4) / 4, key = `${zq}|${[...enabled]}|${phone}`;
+  if (key === clutterKey) return; clutterKey = key;
+  const world = zq < TIER.region, boxes = [], free = r => !boxes.some(b => r.l < b.r && b.l < r.r && r.t < b.b && b.t < r.b);
+  for (const p of places) {
+    const b = badge(p); if (!b) continue;
+    const s = proj(p.coordinates);
+    if (b === 'lived' && homeEls.has(p.id)) boxes.push({l:s.x - 20, r:s.x + 40, t:s.y - 52, b:s.y + 8});
+    else if (groupOf.has(p.id)) boxes.push({l:s.x - 8, r:s.x + 8, t:s.y - 12, b:s.y + 5});
+    else { boxes.push({l:s.x - 8, r:s.x + 8, t:s.y - 22, b:s.y}); if (!world) boxes.push({l:s.x + 9, r:s.x + 12 + p.name.length * 7, t:s.y - 15, b:s.y + 4}); }
+  }
+  const order = stickerEls.filter(o => stickerOn(o.s)).sort((a, b) => (a.s.minZoom ?? 0) - (b.s.minZoom ?? 0));
+  for (const o of stickerEls) o.dx = o.dy = 0, o.mul = 1;
+  for (const o of order) {
+    const {s} = o, {x, y, sc} = stickerBase(o, zq, phone), [ax, ay] = s.anchor ?? [.5, 1];
+    const box = (dx, dy, m) => { const w = s.width * sc * m, h = w * o.ar, l = x + dx - ax * w, t = y + dy - ay * h; return {l, r:l + w, t, b:t + h}; };
+    let slot = [0, 0, 1];
+    if (!s.sideBy && (s.minZoom || !world)) {
+      const size = Math.max(s.width * sc, s.width * sc * o.ar), tries = [];
+      // at world zoom shrink before wandering far, so a crowded region stays near its spot
+      for (const m of world ? [1, .75, .55] : [1, .8]) for (const [u, v] of world ? NEAR : FAR) tries.push([u * size * m, v * size * m, m]);
+      slot = tries.find(([dx, dy, m]) => free(box(dx, dy, m))) ?? (world ? [0, 0, .55] : [0, 0, .8]);
+    }
+    [o.dx, o.dy, o.mul] = slot; boxes.push(box(...slot));
+  }
 }
 
 // ---------- lived journey: numbered homes joined in order by a dotted trail ----------
