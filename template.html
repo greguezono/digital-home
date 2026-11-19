@@ -103,24 +103,15 @@
 
   /* panels */
   #professional { transition: opacity .25s ease, transform .25s ease; }
-  #professional.entering { opacity: 0; transform: translateY(8px); transition: none; }
   #personal { position: fixed; inset: 0; height: 100dvh; z-index: 20; overscroll-behavior: none; touch-action: none; background: #9fd3ec; transition: opacity .25s ease; }
   #personal.off { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility 0s .25s; }
   #personal iframe { display: block; width: 100%; height: 100%; border: 0; }
 
-  /* glass-water tide, played when switching to Personal */
-  #wash { position: fixed; inset: 0; height: 100lvh; z-index: 25; pointer-events: none; overflow: hidden; visibility: hidden; }
-  #wash.on { visibility: visible; }
-  #wash .w { position: absolute; left: -10%; right: -10%; top: 0; height: 125%; transform: translateY(100%);
-             transition: transform .55s cubic-bezier(.45,0,.3,1); }
-  #wash .w svg { position: absolute; left: 0; top: -38px; width: 100%; height: 40px; }
-  #wash .w1 { background: linear-gradient(rgba(232,214,170,.45), rgba(232,214,170,0) 30%); }
-  #wash .w2 { background: linear-gradient(rgba(120,205,220,.25), rgba(120,205,220,.08) 40%); transition-delay: .07s; }
-  #wash .w3 { background: linear-gradient(rgba(40,130,180,.28), rgba(40,130,180,.12) 50%); transition-delay: .14s;
-              backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-  #wash.in .w { transform: translateY(-14%); }
-  #wash.out .w { transform: translateY(105%); transition-duration: .6s; }
-  #wash.out .w1 { transition-delay: .14s; } #wash.out .w3 { transition-delay: 0s; }
+  /* Transition art sits above both panes, below the accessible tab controls. */
+  #wash { position: fixed; inset: 0; z-index: 25; pointer-events: none; overflow: hidden; visibility: hidden; }
+  #wash.active { visibility: visible; }
+  #wash > svg, #wash > canvas { display: block; width: 100%; height: 100%; }
+  body.tab-transition #professional, body.tab-transition #personal { transition: none !important; }
 
   @media (max-width: 700px) {
     .tabs a { padding: 11px 20px; }
@@ -136,7 +127,8 @@
   @media (prefers-reduced-motion: reduce) {
     #wash { display: none; }
     .drop, .drop i, .tabs::after { transition-duration: .15s; animation: none; }
-    #professional, #professional.entering { transform: none; }
+    #professional { transform: none; }
+    #professional, #personal { transition: none !important; }
   }
 </style>
 </head>
@@ -217,11 +209,7 @@
   </section>
 </main>
 <div id="personal" class="off" role="tabpanel" aria-labelledby="tab-personal"></div>
-<div id="wash" aria-hidden="true">
-  <div class="w w1"><svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 30 Q150 0 300 25 T600 22 T900 26 T1200 20 V40 H0Z" fill="rgba(232,214,170,.45)"/></svg></div>
-  <div class="w w2"><svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 28 Q100 5 250 24 T550 20 T850 26 T1200 18 V40 H0Z" fill="rgba(120,205,220,.25)"/><path d="M0 28 Q100 5 250 24 T550 20 T850 26 T1200 18" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="14 8" opacity=".9"/></svg></div>
-  <div class="w w3"><svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path d="M0 24 Q200 2 400 22 T800 18 T1200 24 V40 H0Z" fill="rgba(40,130,180,.28)"/><path d="M0 24 Q200 2 400 22 T800 18 T1200 24" fill="none" stroke="#fff" stroke-width="3" opacity=".85"/></svg></div>
-</div>
+<div id="wash" aria-hidden="true"></div>
 <div id="tip"></div>
 
 <script>
@@ -532,6 +520,8 @@ function placeDrop() {
 }
 
 function ensureAtlas() {
+  // The map needs a laid-out viewport while booting; .off still hides it.
+  panes.personal.hidden = false;
   if (panes.personal.firstChild) return;
   const frame = document.createElement("iframe");
   frame.src = "atlas.html";
@@ -539,28 +529,172 @@ function ensureAtlas() {
   panes.personal.append(frame);
 }
 
+const clamp=x=>Math.max(0,Math.min(1,x));
+const ease=x=>{x=clamp(x);return x*x*(3-2*x)};
+const mix=(a,b,t)=>a+(b-a)*t;
+function node(tag,attrs={},parent){const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);if(parent)parent.append(n);return n}
+function attrs(n,a){for(const[k,v]of Object.entries(a))n.setAttribute(k,v)}
+function stage(){wash.innerHTML='<svg viewBox="0 0 1200 800" preserveAspectRatio="none"><defs><linearGradient id="water" x1="0" y1="0" x2=".8" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#b2f0e8"/><stop offset=".35" stop-color="#4bb8c1"/><stop offset="1" stop-color="#1e789c"/></linearGradient><linearGradient id="deep" x2="0" y2="1"><stop stop-color="#62c7d1"/><stop offset="1" stop-color="#216f9e"/></linearGradient><linearGradient id="sheen" x2=".7" y2="1"><stop stop-color="#fff" stop-opacity=".02"/><stop offset=".45" stop-color="#fff" stop-opacity=".5"/><stop offset=".6" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#a4f5ec" stop-opacity=".3"/></linearGradient></defs></svg>';wash.classList.add('active');return wash.firstElementChild}
+// C2 — Irregular shorebreak; static SVG art, transform-only surge and retreat.
+function shorelineWash2(swap){
+ let swapped=false;
+ const svg=stage(),defs=svg.querySelector('defs');
+ svg.setAttribute('preserveAspectRatio','xMidYMid slice');
+ const depthGradient=node('linearGradient',{id:'shore-depth',x1:0,y1:0,x2:0,y2:800,gradientUnits:'userSpaceOnUse'},defs);
+ [[0,'#dbfff0',.68],[.10,'#89ded3',.9],[.27,'#35b1b5',1],[.65,'#117e91',1],[1,'#07576f',1]].forEach(([offset,color,opacity])=>node('stop',{offset,'stop-color':color,'stop-opacity':opacity},depthGradient));
+ // Unequal broad lobes, broken by smaller fingers: intentionally not periodic scallops.
+ const edge='M-100 25 C-25 14 5 -24 62 -12 C112 -2 127 80 202 90 C266 101 275 40 320 34 C378 24 370 -38 430 -44 C496 -52 501 29 555 39 C610 52 634 8 674 20 C716 31 727 127 800 137 C868 149 867 66 912 55 C957 43 988 85 1028 67 C1074 45 1062 -20 1125 -28 C1187 -36 1207 34 1300 12';
+ const wet=node('rect',{width:1200,height:800,fill:'#615d43',opacity:0},svg);
+ const sheen=node('path',{d:'M-120 740 Q520 420 1300 550',fill:'none',stroke:'#f8fff1','stroke-width':12,opacity:0},svg);
+ const g=node('g',{},svg);
+ node('path',{d:edge+' L1300 1800 H-100Z',fill:'url(#shore-depth)'},g);
+ node('path',{d:edge+' L1300 1800 H-100Z',fill:'#a7f4dc',opacity:'.12',transform:'translate(0 38)'},g);
+ for(let i=0;i<4;i++)node('path',{d:edge,fill:'none',stroke:i%2?'#0a6f88':'#d2fff0','stroke-width':34+i*13,opacity:'.045',transform:`translate(${i*14} ${115+i*76})`},g);
+ node('path',{d:edge,fill:'none',stroke:'#eaffed','stroke-width':12,'stroke-linecap':'round',opacity:'.85'},g);
+ node('path',{d:edge,fill:'none',stroke:'#fffef3','stroke-width':21,'stroke-dasharray':'1 12 5 10 2 19 8 11','stroke-linecap':'round',opacity:'.95'},g);
+ const back=node('g',{},g);
+ node('path',{d:edge,fill:'none',stroke:'#d8ffee','stroke-width':4,opacity:'.8'},back);
+ node('path',{d:edge,fill:'none',stroke:'#f5fff2','stroke-width':8,'stroke-dasharray':'2 12 13 21 1 9','stroke-linecap':'round',opacity:'.75'},back);
+ const foam=node('g',{},g),specks=[];
+ // Sample the actual uneven edge, so the drifting foam hugs the surge rather than a flat strip.
+ const measure=node('path',{d:edge,fill:'none',stroke:'none'},svg),len=measure.getTotalLength();
+ const froth=node('g',{},g);
+ for(let i=0;i<210;i++){
+  const pt=measure.getPointAtLength(len*((i*.6180339)%1));
+  // Porous foam, detached pearls and little fingers reaching beyond the main front.
+  node('ellipse',{cx:pt.x,cy:pt.y-16+(i*13)%39,rx:1+i%4,ry:1+i%3,fill:i%3?'#fffef4':'#66c9bf',opacity:i%3?.45+(i%4)*.14:.45},froth);
+ }
+ for(let i=0;i<170;i++){
+  const pt=measure.getPointAtLength(len*((i*0.6180339)%1)),depth=12+(i*37)%175,r=i%9===0?5+i%4:1+i%3;
+  const n=node('circle',{cx:pt.x,cy:pt.y+depth,r,fill:i%4?'#efffec':'none',stroke:'#ecfff0','stroke-width':i%4?0:1.3,opacity:.18+(i%5)*.12},foam);specks.push(n);
+ }
+ measure.remove();
+ return{duration:1320,draw(t){
+  const retreat=t>.52;
+  const y=t<.46?mix(1000,-235,ease(t/.46)):t<.52?-235:mix(-235,1050,1-Math.pow(1-(t-.52)/.48,1.55));
+  if(t>=.46&&!swapped){swapped=true;swap();}
+  attrs(g,{transform:`translate(0 ${y})`});
+  attrs(back,{transform:`translate(${Math.sin(t*5)*12} ${55+Math.sin(t*4)*9})`});
+  attrs(foam,{transform:`translate(${Math.sin(t*5)*11} ${t*24})`});
+  // Only the larger bubbles drift independently; small specks move as one composited group.
+  specks.forEach((n,i)=>{if(i%9===0)attrs(n,{transform:`translate(${Math.sin(i+t*8)*6} ${Math.sin(t*6+i)*9})`})});
+  const fade=retreat?Math.sin(clamp((t-.52)/.48)*Math.PI):0;
+  attrs(wet,{opacity:fade*.19});attrs(sheen,{opacity:fade*.17,transform:`translate(${(t-.6)*100} ${y-650})`});
+ }};
+}
+
+// M — Curved, travelling Matrix rain band moving right to left; the report is already underneath.
+// Geometry is computed left-to-right and mirrored with m(x) so the glyphs themselves are not flipped.
+function matrixWave(){
+ wash.replaceChildren();wash.classList.add('active');
+ const canvas=document.createElement('canvas');canvas.style.cssText='width:100%;height:100%;display:block';wash.append(canvas);
+ const ctx=canvas.getContext('2d'),glyphs='アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+ let w=0,h=0,dpr=0;
+ function size(){if(w!==innerWidth||h!==innerHeight||dpr!==devicePixelRatio){w=innerWidth;h=innerHeight;dpr=devicePixelRatio;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}}
+ return{duration:1380,dispose(){canvas.width=canvas.height=0;canvas.remove()},draw(t){
+  size();ctx.clearRect(0,0,w,h);
+  const front=mix(-.22*w,1.95*w,t),band=w*.78,m=x=>w-x;
+  const curve=y=>Math.sin(y/h*Math.PI)*w*.13+Math.sin(y/h*7)*w*.025;
+  // Clip source behind an opaque part of the curved crest. Report stays visible below the draining tail.
+  const points=['0% 0','0% 100%'];
+  for(let y=h;y>=0;y-=h/32)points.push(`${clamp(m(front+curve(y)-w*.07)/w)*100}% ${y/h*100}%`);
+  panes.personal.style.clipPath=`polygon(${points.join(',')})`;
+  ctx.save();ctx.beginPath();
+  for(let j=0;j<=40;j++){const y=j*h/40,x=m(front+curve(y));j===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
+  for(let j=40;j>=0;j--){const y=j*h/40;ctx.lineTo(m(front+curve(y)-band),y)}
+  ctx.closePath();ctx.clip();
+  const bg=ctx.createLinearGradient(m(front-band+w*.16),0,m(front+w*.14),0);bg.addColorStop(0,'#020a0400');bg.addColorStop(.22,'#020a04ee');bg.addColorStop(.45,'#020a04');bg.addColorStop(1,'#020a04');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  const font=w<600?14:18,step=font*1.25;ctx.font=`${font}px monospace`;ctx.textAlign='center';ctx.textBaseline='top';
+  for(let col=0;col<Math.ceil(w/step);col++){
+   const x=col*step+step/2,seed=(col*73)%197;
+   for(let stream=0;stream<2;stream++){
+    const head=((seed/h+t*(1.45+col%5*.12)+stream*.54)*(h+step*24))%(h+step*24);
+    for(let k=0;k<24;k++){
+     const y=head-k*step;if(y < -step||y>h)continue;
+     const distance=front+curve(y)-m(x);if(distance<0||distance>band)continue;
+     const tail=1-k/24,drain=clamp((band-distance)/(band*.30));ctx.globalAlpha=drain*(k===0?1:.2+.8*tail);
+     ctx.fillStyle=k===0?'#c8ffd4':k<7?'#00ff6a':k<15?'#00b34a':'#00802f';
+     const char=(col*31+k*17+stream*11+Math.floor(t*17))%glyphs.length;ctx.fillText(glyphs[char],x,y);
+    }
+   }
+  }
+  ctx.restore();ctx.globalAlpha=1;
+ }};
+}
+
+// One runner owns animation, cancellation and all temporary rendering state.
+const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+let activeTransition = null;
+function settlePanes(name) {
+  const personal = name === "personal";
+  panes.professional.hidden = personal;
+  panes.professional.inert = personal;
+  panes.personal.hidden = !personal;
+  panes.personal.inert = !personal;
+  panes.personal.classList.toggle("off", !personal);
+}
+function runTransition(name, factory) {
+  return new Promise((resolve, reject) => {
+    let effect, raf = 0, finished = false;
+    const finish = error => {
+      if (finished) return;
+      finished = true;
+      cancelAnimationFrame(raf);
+      effect?.dispose?.();
+      wash.replaceChildren();
+      wash.classList.remove("active");
+      for (const pane of Object.values(panes)) {
+        pane.style.clipPath = "";
+        pane.style.zIndex = "";
+      }
+      settlePanes(name);
+      document.body.classList.remove("tab-transition");
+      activeTransition = null;
+      error ? reject(error) : resolve();
+    };
+    activeTransition = { finish: () => finish() };
+    document.body.classList.add("tab-transition");
+    try {
+      effect = factory();
+      const start = performance.now();
+      effect.draw(0);
+      const tick = now => {
+        try {
+          const t = clamp((now - start) / effect.duration);
+          effect.draw(t);
+          if (t < 1) raf = requestAnimationFrame(tick);
+          else finish();
+        } catch (error) { finish(error); }
+      };
+      raf = requestAnimationFrame(tick);
+    } catch (error) { finish(error); }
+  });
+}
+motionPreference.addEventListener("change", () => {
+  if (motionPreference.matches) activeTransition?.finish();
+});
+addEventListener("pagehide", () => activeTransition?.finish());
+
 async function enterPersonal(animate) {
   ensureAtlas();
-  if (animate) {
-    wash.className = "on"; void wash.offsetWidth; wash.className = "on in";
-    await Promise.all([sleep(650), Promise.race([whenAtlasReady, sleep(1500)])]);
-  }
-  panes.personal.classList.remove("off");
-  panes.professional.hidden = true;
-  panes.personal.querySelector("iframe").focus({ preventScroll: true });
-  if (animate) {
-    wash.className = "on out"; await sleep(800); wash.className = "";
-  }
+  if (animate) await Promise.race([whenAtlasReady, sleep(1500)]);
+  if (animate && !reducedMotion()) {
+    await runTransition("personal", () => shorelineWash2(() => settlePanes("personal")));
+  } else settlePanes("personal");
+  if (current === "personal") panes.personal.querySelector("iframe").focus({ preventScroll: true });
 }
 
 async function enterProfessional(animate) {
+  const atlasHadFocus = document.activeElement === panes.personal.querySelector("iframe");
   panes.professional.hidden = false;
   window.scrollTo(0, proScroll);
-  if (animate) {
-    panes.professional.classList.add("entering"); void panes.professional.offsetWidth;
-    panes.professional.classList.remove("entering");
+  if (animate && !reducedMotion()) {
+    await runTransition("professional", matrixWave);
+  } else settlePanes("professional");
+  // Focus must never remain inside the now-hidden atlas iframe.
+  if (current === "professional" && atlasHadFocus && document.activeElement === document.body) {
+    document.getElementById("tab-professional").focus({ preventScroll: true });
   }
-  panes.personal.classList.add("off");
 }
 
 function showTab(name) {
