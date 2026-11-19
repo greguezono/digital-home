@@ -23,7 +23,7 @@ function layout() {
   const z = map.getZoom(), w = innerWidth, h = innerHeight, phone = phoneQ.matches, ppd = 512 * 2 ** z / 360, off = (pt, m = 80) => pt.x < -m || pt.y < -m || pt.x > w + m || pt.y > h + m;
   document.body.classList.toggle('zoomed', z >= TIER.names); document.body.classList.toggle('zoomed-hi', z >= TIER.city);
   for (const {p, e, rot} of countryEls) {
-    const fs = clamp(p.w * ppd * .4, 0, 46), pt = proj([p.lx, p.ly]), on = state.active.has(p.country) && fs >= 9 && z < 5.5 && !off(pt);
+    const fs = clamp(p.w * ppd * .4, 0, 46), pt = proj([p.lx, p.ly]), on = state.active.has(p.country) && fs >= 9 && z >= TIER.text && z < 5.5 && !off(pt);
     show(e, on); if (on) { e.style.fontSize = fs + 'px'; place(e, pt.x, pt.y, ` translate(-50%,-50%) rotate(${rot}deg)`); }
   }
   const coveredIds = new Set(); let sl = '';
@@ -79,7 +79,7 @@ function layout() {
       for (const id of ids) { const s = proj(byId.get(id).coordinates), seg = `M${lx.toFixed(1)} ${(y + b._h / 2).toFixed(1)}L${s.x.toFixed(1)} ${s.y.toFixed(1)}`; d += seg; if (id === state.selected) ds2 += seg; }
       continue;
     }
-    const on = z < TIER.city && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
+    const on = z >= TIER.text && z < TIER.city && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
     e._w ??= e.offsetWidth; a.y -= (e._h ??= e.offsetHeight) / 2; let x = g.align === 'right' ? a.x - e._w : a.x;
     if (phone) { x = clamp(x, 6, w - e._w - 6); a.x = g.align === 'right' ? x + e._w : x; }
     place(e, x, a.y);

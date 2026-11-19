@@ -23,7 +23,7 @@ const aspectOf = svg => { const v = (svg.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0
 const anchorOf = s => s.at ?? (s.place ? byId.get(s.place).coordinates : centroid(groupById.get(s.group).places));
 const stickerOn = s => [...(s.place ? [s.place] : groupById.get(s.group).places), ...(s.alsoPlaces ?? [])].some(id => byId.has(id) && badge(byId.get(id)));
 
-$('#title h1').innerHTML = title.replace(/^(.*?Places)/i, '<span>$1</span>');
+$('#title h1').innerHTML = title.replace(/^(.*?(?:Places|’s))/i, '<span>$1</span>');
 $('#quote').textContent = `“${quote}”`;
 $('#stats').innerHTML = `<b>${new Set(places.map(p => p.country)).size}</b> countries · <b>${places.length}</b> places · <b>${places.filter(p => p.categories.includes('surfed')).length}</b> surf spots`;
 

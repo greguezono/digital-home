@@ -7,9 +7,10 @@ const countryEls = countries.features.map(f => { const p = f.properties, h = [..
 const stickerEls = stickers.filter(s => svgs[s.icon]).map(s => ({s, at:anchorOf(s), ar:aspectOf(svgs[s.icon]), dx:0, dy:0, mul:1, e:add('doodle', svgs[s.icon].replace('<svg', `<svg width="${s.width}"`), s.place ? {id:s.place, tip:s.label} : {group:s.group, tip:s.label})}));
 
 // ---------- zoom tiers + sticker declutter ----------
+// world (below text): stickers, pins and spot icons only, no text; text: country names and offshore lists;
 // world (below region): every sticker, no place names; region: place names and offshore lists; city: pins and spot names, lists hidden
 // list:false group stickers stand in for their members' pins until TIER.cover
-const TIER = {region:4, names:4.5, cover:5.2, city:7.5};
+const TIER = {text:3, region:4, names:4.5, cover:5.2, city:7.5};
 // the offset nudges stickers clear of pins at world zoom and eases to 0 by zoom 4, so the sticker then sits on its real location
 // size grows with the map, capped at maxScale × width so it never swallows a city view
 // sideBy stickers keep their offset at every zoom so they sit beside a lived home instead of under it

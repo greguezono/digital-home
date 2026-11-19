@@ -22,7 +22,7 @@ const mercY = lat => .5 - Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) 
 const BAND = mercY(LAT_BOT) - mercY(LAT_TOP), phoneQ = matchMedia('(max-width:700px) and (orientation:portrait)');
 const heightFit = h => Math.log2(h / (512 * BAND));
 const minZoomFor = (w, h) => phoneQ.matches ? Math.min(Math.log2(w / 512), heightFit(h)) : heightFit(h);
-const W = innerWidth, H = innerHeight, startZoom = phoneQ.matches ? minZoomFor(W, H) + 1.1 : Math.max(Math.log2(W / 512) + .05, minZoomFor(W, H));
+const W = innerWidth, H = innerHeight, startZoom = phoneQ.matches ? minZoomFor(W, H) + 1.1 : Math.max(Math.log2(W / 512) + .75, minZoomFor(W, H));
 const style = {version:8, glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
   sources:{omt:{type:'vector', url:'https://tiles.openfreemap.org/planet'}},
   layers:[
@@ -37,7 +37,7 @@ const style = {version:8, glyphs:'https://tiles.openfreemap.org/fonts/{fontstack
     {id:'coast', type:'line', source:'omt', 'source-layer':'water', paint:{'line-color':INK, 'line-width':['interpolate',['linear'],['zoom'],1,.9,6,1.6,12,2.2], 'line-opacity':.9}},
     {id:'labels', type:'symbol', source:'omt', 'source-layer':'place', minzoom:5, filter:['in',['get','class'],['literal',['city','town']]], layout:{'text-field':['coalesce',['get','name_en'],['get','name:latin'],['get','name']], 'text-font':['Noto Sans Italic'], 'text-size':['interpolate',['linear'],['zoom'],5,10,10,14]}, paint:{'text-color':'#5b5240', 'text-halo-color':'#f6eedb', 'text-halo-width':1.4}},
   ]};
-const map = new maplibregl.Map({container:'map', style, center:phoneQ.matches ? [-40, 18] : [-8, 18], zoom:startZoom, minZoom:minZoomFor(W, H), maxZoom:15, attributionControl:false, renderWorldCopies:true, dragRotate:false, pitchWithRotate:false, touchPitch:false});
+const map = new maplibregl.Map({container:'map', style, center:phoneQ.matches ? [-72, 10] : [-74, 6], zoom:startZoom, minZoom:minZoomFor(W, H), maxZoom:15, attributionControl:false, renderWorldCopies:true, dragRotate:false, pitchWithRotate:false, touchPitch:false});
 map.touchZoomRotate.disableRotation();
 window.atlasMap = map;
 map.addControl(new maplibregl.AttributionControl({compact:true, customAttribution:'OpenFreeMap · © OpenStreetMap · Natural Earth'}), 'bottom-right');
