@@ -10,7 +10,7 @@ const stickerEls = stickers.filter(s => svgs[s.icon]).map(s => ({s, at:anchorOf(
 // world (below text): stickers, pins and spot icons only, no text; text: country names and offshore lists;
 // world (below region): every sticker, no place names; region: place names and offshore lists; city: pins and spot names, lists hidden
 // list:false group stickers stand in for their members' pins until TIER.cover
-const TIER = {text:3, region:4, names:4.5, cover:5.2, city:7.5};
+const TIER = {text:3, textPhone:1.6, region:4, names:4.5, cover:5.2, city:7.5};
 // the offset nudges stickers clear of pins at world zoom and eases to 0 by zoom 4, so the sticker then sits on its real location
 // size grows with the map, capped at maxScale × width so it never swallows a city view
 // sideBy stickers keep their offset at every zoom so they sit beside a lived home instead of under it

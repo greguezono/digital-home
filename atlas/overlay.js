@@ -20,10 +20,10 @@ const boxOf = ids => ids.map(id => proj(byId.get(id).coordinates)).reduce((b, p)
 
 
 function layout() {
-  const z = map.getZoom(), w = innerWidth, h = innerHeight, phone = phoneQ.matches, ppd = 512 * 2 ** z / 360, off = (pt, m = 80) => pt.x < -m || pt.y < -m || pt.x > w + m || pt.y > h + m;
+  const z = map.getZoom(), w = innerWidth, h = innerHeight, phone = phoneQ.matches, ppd = 512 * 2 ** z / 360, text = z >= (phone ? TIER.textPhone : TIER.text), off = (pt, m = 80) => pt.x < -m || pt.y < -m || pt.x > w + m || pt.y > h + m;
   document.body.classList.toggle('zoomed', z >= TIER.names); document.body.classList.toggle('zoomed-hi', z >= TIER.city);
   for (const {p, e, rot} of countryEls) {
-    const fs = clamp(p.w * ppd * .4, 0, 46), pt = proj([p.lx, p.ly]), on = state.active.has(p.country) && fs >= 9 && z >= TIER.text && z < 5.5 && !off(pt);
+    const fs = clamp(p.w * ppd * .4, 0, 46), pt = proj([p.lx, p.ly]), on = state.active.has(p.country) && fs >= 9 && text && z < 5.5 && !off(pt);
     show(e, on); if (on) { e.style.fontSize = fs + 'px'; place(e, pt.x, pt.y, ` translate(-50%,-50%) rotate(${rot}deg)`); }
   }
   const coveredIds = new Set(); let sl = '';
@@ -63,7 +63,7 @@ function layout() {
   for (const {g, ids, e, b} of groupEls) {
     // on a phone, below city zoom, a list collapses to a tappable badge so it never runs off-screen
     // at the very widest zoom badges would pile up, so only the spots and leaders remain
-    const asBadge = phone && z < PHONE_LIST_ZOOM && z >= (g.minZoom ?? 0), badgeRoom = z >= map.getMinZoom() + .7;
+    const asBadge = phone && z < PHONE_LIST_ZOOM && z >= (g.minZoom ?? 0), badgeRoom = text;
     if (!ids.length || !asBadge) show(b, false);
     if (!ids.length) { show(e, false); continue; }
     const k = phone ? .5 : 1, bx = boxOf(ids), a = {x:(g.align === 'right' ? bx.l : bx.r) + g.offset[0] * k, y:(bx.t + bx.btm) / 2 + g.offset[1] * k};
@@ -79,7 +79,7 @@ function layout() {
       for (const id of ids) { const s = proj(byId.get(id).coordinates), seg = `M${lx.toFixed(1)} ${(y + b._h / 2).toFixed(1)}L${s.x.toFixed(1)} ${s.y.toFixed(1)}`; d += seg; if (id === state.selected) ds2 += seg; }
       continue;
     }
-    const on = z >= TIER.text && z < TIER.city && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
+    const on = text && z < TIER.city && z >= (g.minZoom ?? 0) && !off(a, 260); show(e, on); if (!on) continue;
     e._w ??= e.offsetWidth; a.y -= (e._h ??= e.offsetHeight) / 2; let x = g.align === 'right' ? a.x - e._w : a.x;
     if (phone) { x = clamp(x, 6, w - e._w - 6); a.x = g.align === 'right' ? x + e._w : x; }
     place(e, x, a.y);
