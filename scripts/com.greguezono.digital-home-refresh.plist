@@ -8,22 +8,22 @@
 		<string>/opt/homebrew/bin:/usr/bin:/bin</string>
 	</dict>
 	<key>Label</key>
-	<string>com.greguezono.ai-output-refresh</string>
+	<string>com.greguezono.digital-home-refresh</string>
 	<key>MiniNotchName</key>
-	<string>AI Output Report Refresh</string>
+	<string>Digital Home Report Refresh</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/usr/bin/python3</string>
-		<string>/Users/guezono/code/personal/ai-output/scripts/refresh.py</string>
+		<string>/Users/guezono/code/personal/digital-home/scripts/refresh.py</string>
 		<string>--publish</string>
 		<string>--if-stale</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>StandardErrorPath</key>
-	<string>/Users/guezono/Library/Logs/ai-output-refresh.log</string>
+	<string>/Users/guezono/Library/Logs/digital-home-refresh.log</string>
 	<key>StandardOutPath</key>
-	<string>/Users/guezono/Library/Logs/ai-output-refresh.log</string>
+	<string>/Users/guezono/Library/Logs/digital-home-refresh.log</string>
 	<key>StartCalendarInterval</key>
 	<dict>
 		<key>Day</key>

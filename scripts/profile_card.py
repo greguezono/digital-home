@@ -1,7 +1,7 @@
 """Write the GitHub profile README chart cards from the cached PR pull.
 
 Usage: python3 scripts/profile_card.py [--out DIR]
-Writes ai-output-{wide,compact}-{dark,light}.svg. The wide card fills a desktop profile; the compact card stays
+Writes digital-home-{wide,compact}-{dark,light}.svg. The wide card fills a desktop profile; the compact card stays
 legible at the ~308 px a phone gives the README image. No network calls: run refresh.py first if the cache is stale.
 """
 import argparse
@@ -11,7 +11,7 @@ from pathlib import Path
 
 from refresh import ROOT, last_complete_month, report_data
 
-REPORT_URL = "https://greguezono.github.io/ai-output/"
+REPORT_URL = "https://greguezono.github.io/digital-home/"
 FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif'
 THEMES = {
     "dark": {"bg": "#0d1117", "edge": "#30363d", "text": "#e6edf3", "muted": "#8b949e", "grid": "#21262d",
@@ -190,7 +190,7 @@ def main():
     args.out.mkdir(parents=True, exist_ok=True)
     for name, t in THEMES.items():
         for kind, render in (("wide", wide), ("compact", compact)):
-            path = args.out / f"ai-output-{kind}-{name}.svg"
+            path = args.out / f"digital-home-{kind}-{name}.svg"
             path.write_text(render(data, t))
             print(path)
 
