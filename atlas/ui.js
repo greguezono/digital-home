@@ -1,6 +1,6 @@
 import {$, CAT, EDGE, HOME, INK, PALETTE, badge, el, enabled, icon, ov, priority, state} from './core.js';
 import {areaById, byId, catOf, countries, groupById, places, title} from './data.js';
-import {LAT_BOT, LAT_TOP, coarse, map, syncPhone} from './map.js';
+import {LAT_BOT, LAT_TOP, coarse, map, mapLoaded, syncPhone} from './map.js';
 import {homeEls, homeOf, resetTrail} from './journey.js';
 import {layout, renderGroups} from './overlay.js';
 
@@ -14,7 +14,7 @@ function refresh() {
   if (state.selected && !badge(byId.get(state.selected))) pick('');
   layout();
 }
-map.on('load', async () => {
+mapLoaded.then(async () => {
   map.addSource('countries', {type:'geojson', data:countries});
   const pal = (obj) => ['match',['get','c'],...Object.entries(obj).flatMap(([k, v]) => [+k, v]),'#f6d26b'];
   map.addLayer({id:'country-paint', type:'fill', source:'countries', paint:{'fill-color':pal(PALETTE), 'fill-opacity':.92}}, 'state-lines');

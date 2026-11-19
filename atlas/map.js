@@ -39,6 +39,8 @@ const style = {version:8, glyphs:'https://tiles.openfreemap.org/fonts/{fontstack
   ]};
 const map = new maplibregl.Map({container:'map', style, center:phoneQ.matches ? [-72, 10] : [-74, 6], zoom:startZoom, minZoom:minZoomFor(W, H), maxZoom:15, attributionControl:false, renderWorldCopies:true, dragRotate:false, pitchWithRotate:false, touchPitch:false});
 map.touchZoomRotate.disableRotation();
+// ui.js evaluates only after data.js's top-level await (JSON + every sticker SVG) settles, which can be after 'load' fires
+const mapLoaded = new Promise(r => map.once('load', r));
 window.atlasMap = map;
 map.addControl(new maplibregl.AttributionControl({compact:true, customAttribution:'OpenFreeMap · © OpenStreetMap · Natural Earth'}), 'bottom-right');
 map.addControl(new maplibregl.NavigationControl({showCompass:false}), 'top-right');
@@ -75,4 +77,4 @@ if (coarse) map.getCanvasContainer().append($('#ov'));
 
 function proj(ll) { const c = map.getCenter().lng; let lng = ll[0]; lng += 360 * Math.round((c - lng) / 360); return map.project([lng, ll[1]]); }
 
-export {LAT_BOT, LAT_TOP, coarse, map, mercY, phoneQ, proj, syncPhone};
+export {LAT_BOT, LAT_TOP, coarse, map, mapLoaded, mercY, phoneQ, proj, syncPhone};
