@@ -1,6 +1,6 @@
 # digital-home
 
-Interactive report of my GitHub pull-request output before and after adopting AI coding tools (Dec 2025).
+My digital home page, professional and personal. 
 
 Live: https://greguezono.github.io/digital-home/
 
