@@ -90,17 +90,20 @@
    "replaces": "christ-the-redeemer",
    "refs": [
     "rio-pedra-da-gavea.png",
-    "pedra-da-gavea-detail.png"
+    "pedra-da-gavea-detail.png",
+    "pedra-da-gavea-classic.jpg"
    ],
    "brief": "Replace Christ the Redeemer. Pedra da Gávea: a big forest-green mountain with a flat-topped bare-granite summit block (tan/ochre #e9c98f + #c38a62) — tall square 'head' on the right, lower flat shelf on the left — over a dark rock face; optional wisp of white cloud at the base and ocean band.",
    "drafts": [
     "pedra-da-gavea.v1.svg",
     "pedra-da-gavea.v2.svg",
-    "pedra-da-gavea.v3.svg"
+    "pedra-da-gavea.v3.svg",
+    "pedra-da-gavea.v4.svg",
+    "pedra-da-gavea.v5.svg"
    ],
    "status": "picked",
-   "pick": "v3",
-   "notes": "Round 2 (Greg): v3 = v2 composition but the rock is more chiselled and detailed, per the labelled ref: the CABEÇA (head) is a big squarish granite block on the right with vertical fracture lines and a shadowed 'face' (two eye hollows = OLHOS, faint nose ridge) on its front; a lower flat MESA/PLATÔ shelf block on the left; a sheer PAREDÃO cliff below the head; layered horizontal strata strokes and facet shading in ochre/tan (#e9c98f, #c38a62, #a9783f). Forest green flanks below, cloud wisp at base."
+   "pick": "v5",
+   "notes": "Round 2 (Greg): v3 = v2 composition but the rock is more chiselled and detailed, per the labelled ref: the CABEÇA (head) is a big squarish granite block on the right with vertical fracture lines and a shadowed 'face' (two eye hollows = OLHOS, faint nose ridge) on its front; a lower flat MESA/PLATÔ shelf block on the left; a sheer PAREDÃO cliff below the head; layered horizontal strata strokes and facet shading in ochre/tan (#e9c98f, #c38a62, #a9783f). Forest green flanks below, cloud wisp at base. Round 3 (Greg): v4 follows pedra-da-gavea-classic.jpg — tall rounded granite head block with a dark horizontal band, grassy flat shelf to the left, dark rock face, forested right ridge to sea, cloud and grass foreground. v4 rejected (looked like an okaki): head too tall/cylindrical, mountain too squat. v5: steep tall pyramid silhouette, small squarish head at the very peak, flat shelf left, dark rock face left, dense dark-green forest ridge right down to sea. Round 4 (Greg): rock recoloured near-black/slate. Picked v5."
   },
   {
    "name": "independence-palace",

@@ -258,6 +258,20 @@
       "precision": "place"
     },
     {
+      "id": "ostuni",
+      "name": "Ostuni",
+      "country": "Italy",
+      "region": "Europe",
+      "categories": [
+        "visited"
+      ],
+      "coordinates": [
+        17.5778,
+        40.7297
+      ],
+      "precision": "place"
+    },
+    {
       "id": "matera",
       "name": "Matera",
       "country": "Italy",
